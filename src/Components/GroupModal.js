@@ -11,12 +11,12 @@ import {
 } from 'react-native';
 import React from 'react';
 
-const { HEIGHT, WIDTH } = Dimensions.get('window');
+const { height: HEIGHT, width: WIDTH } = Dimensions.get('window');
 
 const GroupModal = (props) => {
     const ANDROID = Platform.OS === 'android';
     const Height1 = ANDROID ? HEIGHT * 0.12 : HEIGHT * 0.17;
-    const Height2 = ANDROID ? HEIGHT * 0.17 : HEIGHT * 0.2;
+    const Height2 = ANDROID ? HEIGHT * 0.17 : HEIGHT * 0.25; // Adjusted to fit all options
 
     return (
         <View>
@@ -24,42 +24,59 @@ const GroupModal = (props) => {
                 animationType="slide"
                 transparent={true}
                 visible={props?.visible}
-                // Note: Modal does not accept a 'style' prop. Styling should be applied to its children.
             >
                 <TouchableWithoutFeedback onPress={props?.closeModal}>
                     <View style={styles.modalOverlay} />
                 </TouchableWithoutFeedback>
 
                 <SafeAreaView
-                    style={[
-                        StyleSheet.absoluteFill,
-                        {
-                            height: props?.CreateGroup || props?.DeleteChat ? Height1 : Height2,
-                        },
-                    ]}
+                    style={[StyleSheet.absoluteFill, {
+                        height: props?.CreateGroup || props?.DeleteChat ? Height1 : Height2,
+                    }]}
                 >
                     <View style={styles.modalContainer}>
-                        {props?.CreateGroup && (
-                            <TouchableOpacity
-                                onPress={props?.Gmember}
-                                style={styles.optionContainer}
-                            >
-                                <Text style={styles.textStyle}>{props?.message}</Text>
-                            </TouchableOpacity>
-                        )}
+                        {/* Electronics Option */}
+                        <TouchableOpacity
+                            onPress={props?.onElectronicsPress}
+                            style={styles.optionContainer}
+                        >
+                            <Text style={styles.textStyle}>Electronics</Text>
+                        </TouchableOpacity>
 
-                        {props?.line && (
-                            <View style={styles.lineStyle}></View>
-                        )}
+                        {/* Jewelry Option */}
+                        <TouchableOpacity
+                            onPress={props?.onJewelryPress}
+                            style={styles.optionContainer}
+                        >
+                            <Text style={styles.textStyle}>Jewelry</Text>
+                        </TouchableOpacity>
 
-                        {props?.DeleteChat && (
-                            <TouchableOpacity
-                                onPress={props?.deletechat}
-                                style={[styles.optionContainer, { marginTop: '4%' }]}
-                            >
-                                <Text style={styles.textStyle}>Delete Chat</Text>
-                            </TouchableOpacity>
-                        )}
+                        {/* Men Option */}
+                        <TouchableOpacity
+                            onPress={props?.onMenPress}
+                            style={styles.optionContainer}
+                        >
+                            <Text style={styles.textStyle}>Men</Text>
+                        </TouchableOpacity>
+
+                        {/* Women Option */}
+                        <TouchableOpacity
+                            onPress={props?.onWomenPress}
+                            style={styles.optionContainer}
+                        >
+                            <Text style={styles.textStyle}>Women</Text>
+                        </TouchableOpacity>
+
+                        {/* Divider Line */}
+                        <View style={styles.lineStyle}></View>
+
+                        {/* Logout Option */}
+                        <TouchableOpacity
+                            onPress={props?.onLogoutPress}
+                            style={[styles.optionContainer, { marginTop: '4%' }]}
+                        >
+                            <Text style={styles.textStyle}>Logout</Text>
+                        </TouchableOpacity>
                     </View>
                 </SafeAreaView>
             </Modal>
@@ -70,10 +87,10 @@ const GroupModal = (props) => {
 const styles = StyleSheet.create({
     modalOverlay: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)', // Optional: Add a semi-transparent background
+        backgroundColor: 'rgba(0,0,0,0.5)', 
     },
     modalContainer: {
-        backgroundColor: 'red',
+        backgroundColor: 'white',
         width: "45%",
         padding: 10,
         marginTop: "10%",
@@ -89,7 +106,6 @@ const styles = StyleSheet.create({
         marginVertical: 6,
     },
     textStyle: {
-       
         color: '#000',
         fontSize: 14,
         marginLeft: "8%",
@@ -99,7 +115,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         height: HEIGHT * 0.001,
         alignSelf: 'center',
-        marginVertical: '2%', // Adjusted for better spacing
+        marginVertical: '2%',
     },
 });
 
