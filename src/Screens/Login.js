@@ -8,10 +8,11 @@ import { COLORS } from '../assets/Theme'
 import { WIDTH } from '../Components/Helpers/Dimensions'
 import { ANDROID } from '../Components/Helpers/Platform'
 import { FONT } from '../assets/fonts/Fonts'
+import { useDispatch } from 'react-redux'
 
 
 const Login = (props) => {
-
+    const dispatch = useDispatch()
     const [show, setshow] = useState(true);
 
     const [FullNm, setFullNm] = useState("");
@@ -53,11 +54,9 @@ const Login = (props) => {
             });
 
             if (response?.status === 200) {
-                const token = response?.data?.token;
-                console.log(token, 'Token from response');
-                // const dispatch = useDispatch();
-                // dispatch(saveToken(token));
-
+                const Token = response?.data?.token;
+                console.log(Token, 'Token from response');
+                dispatch(saveToken (Token));
                 props.navigation.navigate('BottomTabbar');
                 showMessage({
                     message: "Login successful",

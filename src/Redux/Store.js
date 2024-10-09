@@ -11,13 +11,18 @@ const AllProductDataPersistConfig = {
     key: 'saveAllProductData',
     storage: AsyncStorage,
 };
+const TOKENPersistConfig = {
+    key: 'Token',
+    storage: AsyncStorage,
+};
 
 
 const persistedSaveAllProductDataReducer = persistReducer(AllProductDataPersistConfig, ProductDetails);
-
+const persistedTokenReducer = persistReducer(TOKENPersistConfig, ProductDetails);
 
 const persistedRootReducer = combineReducers({
     saveAllProductData: persistedSaveAllProductDataReducer,
+    Token: persistedTokenReducer,
 });
 
 

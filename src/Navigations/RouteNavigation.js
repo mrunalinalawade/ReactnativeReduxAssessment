@@ -14,7 +14,6 @@ const RouteNavigation = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="BottomTabbar">
-      {/* -----------------------Splash----------------------------- */}
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={Home} />
       

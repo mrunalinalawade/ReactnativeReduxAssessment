@@ -7,6 +7,7 @@ import GroupModal from '../Components/GroupModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux'
 import RootState from '../Redux/Store';
+import { clearSelectedCategory, setSelectedCategory } from '../Redux/ProductDetails';
 
 
 const Home = (props) => {
@@ -24,6 +25,14 @@ const Home = (props) => {
   const saveAllProductData = useSelector((state: RootState) => state.saveAllProductData.AllProductData_);
   console.log(saveAllProductData, 'allDataallDataallDataallData')
 
+  // const saveAllProductData = useSelector((state: RootState) => state.saveAllProductData.AllProductData_);
+  const selectedCategory = useSelector((state: RootState) => state.saveAllProductData.selectedCategory);
+
+  // Determine the data to display: filter if a category is selected
+  const filteredData = selectedCategory
+    ? saveAllProductData.filter(product => product.category === selectedCategory)
+    : saveAllProductData;
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -32,8 +41,8 @@ const Home = (props) => {
     try {
       const res = await axios.get('https://fakestoreapi.com/products');
       if (res.status === 200) {
-        setProducts(res.data);
-        console.log(res.data, 'Fetched Products');
+        setProducts(res?.data);
+        console.log(res.data, 'all Products');
         const AllProductData = res?.data;
         dispatch(saveAllProductData(AllProductData));
         showMessage({
@@ -110,7 +119,7 @@ const Home = (props) => {
         </View>
 
         <FlatList
-          data={products}
+          data={filteredData}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
@@ -122,7 +131,7 @@ const Home = (props) => {
           }
         />
 
-        <GroupModal
+        {/* <GroupModal
           visible={modalVisible}
           closeModal={() => setModalVisible(false)}
           onElectronicsPress={() => console.log('Jewelry pressed')}
@@ -130,7 +139,37 @@ const Home = (props) => {
           onMenPress={() => console.log('Men pressed')}
           onWomenPress={() => console.log('Women pressed')}
           onLogoutPress={() => props.navigation.navigate('Login')}
+        /> */}
+
+
+        <GroupModal
+          visible={modalVisible}
+          closeModal={() => setModalVisible(false)} 
+          onElectronicsPress={() => {
+            dispatch(setSelectedCategory('electronics')); 
+            setModalVisible(false); 
+          }}
+          onJewelryPress={() => {
+            dispatch(setSelectedCategory('jewelery')); 
+            setModalVisible(false); 
+          }}
+          onMenPress={() => {
+            dispatch(setSelectedCategory("men's clothing")); 
+            setModalVisible(false); 
+          }}
+          onWomenPress={() => {
+            dispatch(setSelectedCategory("women's clothing")); 
+            setModalVisible(false);
+          }}
+          onAllPress={() => {
+            dispatch(clearSelectedCategory()); 
+            setModalVisible(false); 
+          }}
+          onLogoutPress={() => props.navigation.navigate('Login')} 
         />
+
+
+
       </ScrollView>
     </SafeAreaView>
   );
