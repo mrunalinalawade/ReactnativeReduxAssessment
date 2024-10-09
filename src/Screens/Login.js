@@ -14,7 +14,6 @@ import { useDispatch } from 'react-redux'
 const Login = (props) => {
     const dispatch = useDispatch()
     const [show, setshow] = useState(true);
-
     const [FullNm, setFullNm] = useState("");
     const [fullNmError, setFullNmError] = useState("");
     const [password, setpassword] = useState('')
@@ -64,11 +63,7 @@ const Login = (props) => {
                     icon: 'success',
                     duration: 3000,
                 });
-
-
-
             } else {
-
                 setLoader(false);
                 showMessage({
                     message: response?.data?.message || 'Login failed',
@@ -138,7 +133,7 @@ const Login = (props) => {
                                     TextInputStyle={{
                                         fontSize: 14,
                                         fontFamily: FONT.Regular,
-                                        // marginLeft: "2%",
+                                      
                                         color: COLORS.BLACK,
                                     }}
                                     InputFieldStyle={{
@@ -213,20 +208,15 @@ const Login = (props) => {
                                 Textstyles={{ color: 'rgba(255, 255, 255, 1)', fontSize: 16, fontFamily: FONT.semiBold }}
 
                             />
-
-
                         </View>
-
                     </KeyboardAwareScrollView>
                 </View>
-
             </SafeAreaView>
         </>
     )
 }
 
 export default Login
-
 const styles = StyleSheet.create({
     mainviewStyle: {
         justifyContent: 'center',
@@ -265,8 +255,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 13,
         marginLeft: '6%'
-
-
     },
     accounttextStyle: {
         fontSize: 14,

@@ -16,20 +16,14 @@ const Home = (props) => {
   const [loader, setLoader] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch()
-
   const handleGmember = () => {
     props.navigation.navigate('Cart');
     setModalVisible(false);
   };
   const handleDeleteChat = () => setModalVisible(false);
   const handleCloseModal = () => setModalVisible(false);
-  // const saveAllProductData = useSelector((state: RootState) => state.saveAllProductData.AllProductData_);
-  // console.log(saveAllProductData, 'allDataallDataallDataallData')
-
   const allProductData = useSelector((state: RootState) => state.saveAllProductData.AllProductData_);
   const selectedCategory = useSelector((state: RootState) => state.saveAllProductData.selectedCategory);
-
-  // Determine the data to display: filter if a category is selected
   const filteredData = selectedCategory
     ? allProductData.filter(product => product.category === selectedCategory)
     : allProductData;
@@ -37,6 +31,7 @@ const Home = (props) => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
   const fetchProducts = async () => {
     setLoader(true);
     try {
@@ -74,12 +69,7 @@ const Home = (props) => {
   };
 
 
-
-
-
   const renderItem = ({ item }) => (
-
-
     <View style={styles.flatListItem}>
       <Image
         source={{ uri: item?.image }}
@@ -100,17 +90,13 @@ const Home = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-
-
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.subhead}>
           <Text style={styles.exporetxt}>Home</Text>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
             <Feather name='menu' color={'black'} size={24} />
           </TouchableOpacity>
-
         </View>
-
         <FlatList
           data={filteredData}
           keyExtractor={(item) => item.id.toString()}
@@ -123,46 +109,31 @@ const Home = (props) => {
             </View>
           }
         />
-
-        {/* <GroupModal
+        <GroupModal
           visible={modalVisible}
           closeModal={() => setModalVisible(false)}
-          onElectronicsPress={() => console.log('Jewelry pressed')}
-          onJewelryPress={() => console.log('Jewelry pressed')}
-          onMenPress={() => console.log('Men pressed')}
-          onWomenPress={() => console.log('Women pressed')}
+          onElectronicsPress={() => {
+            dispatch(setSelectedCategory('electronics'));
+            setModalVisible(false);
+          }}
+          onJewelryPress={() => {
+            dispatch(setSelectedCategory('jewelery'));
+            setModalVisible(false);
+          }}
+          onMenPress={() => {
+            dispatch(setSelectedCategory("men's clothing"));
+            setModalVisible(false);
+          }}
+          onWomenPress={() => {
+            dispatch(setSelectedCategory("women's clothing"));
+            setModalVisible(false);
+          }}
+          onAllPress={() => {
+            dispatch(clearSelectedCategory());
+            setModalVisible(false);
+          }}
           onLogoutPress={() => props.navigation.navigate('Login')}
-        /> */}
-
-
-             <GroupModal
-        visible={modalVisible}
-        closeModal={() => setModalVisible(false)}  // Close modal
-        onElectronicsPress={() => {
-          dispatch(setSelectedCategory('electronics')); // Set selected category
-          setModalVisible(false); // Close the modal
-        }}
-        onJewelryPress={() => {
-          dispatch(setSelectedCategory('jewelery')); // Set selected category
-          setModalVisible(false); // Close the modal
-        }}
-        onMenPress={() => {
-          dispatch(setSelectedCategory("men's clothing")); // Set selected category
-          setModalVisible(false); // Close the modal
-        }}
-        onWomenPress={() => {
-          dispatch(setSelectedCategory("women's clothing")); // Set selected category
-          setModalVisible(false); // Close the modal
-        }}
-        onAllPress={() => {
-          dispatch(clearSelectedCategory()); // Clear selected category to show all products
-          setModalVisible(false); // Close the modal
-        }}
-        onLogoutPress={() => props.navigation.navigate('Login')} // Handle logout
-      />
-
-
-
+        />
       </ScrollView>
       <SpinningLoader loader={loader} />
     </SafeAreaView>
