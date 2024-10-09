@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, Modal, ActivityIndicator, StyleSheet } from 'react-native';
-import { COLORS, FONT } from '../components/assets/Theme';
+import { COLORS } from '../assets/Theme';
+
 
 const SpinningLoader = ({ loader }) => {
   return (
     <Modal transparent={true} animationType="slide" visible={loader}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <ActivityIndicator size="large" color={'#ED2124'} />
+          <ActivityIndicator size="large" color={'#000'} />
           <Text style={styles.loadingText}>Please wait...</Text>
         </View>
       </View>
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   loadingText: {
     color: COLORS.BLACK,
     fontSize: 14,
-    fontFamily: FONT.Regular,
+
   },
 });
 

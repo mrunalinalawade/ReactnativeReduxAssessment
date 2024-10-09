@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux'
 import RootState from '../Redux/Store';
 import { clearSelectedCategory, setSelectedCategory } from '../Redux/ProductDetails';
+import SpinningLoader from '../ApiConfig/SpinningLoader';
 
 
 const Home = (props) => {
@@ -22,16 +23,16 @@ const Home = (props) => {
   };
   const handleDeleteChat = () => setModalVisible(false);
   const handleCloseModal = () => setModalVisible(false);
-  const saveAllProductData = useSelector((state: RootState) => state.saveAllProductData.AllProductData_);
-  console.log(saveAllProductData, 'allDataallDataallDataallData')
-
   // const saveAllProductData = useSelector((state: RootState) => state.saveAllProductData.AllProductData_);
+  // console.log(saveAllProductData, 'allDataallDataallDataallData')
+
+  const allProductData = useSelector((state: RootState) => state.saveAllProductData.AllProductData_);
   const selectedCategory = useSelector((state: RootState) => state.saveAllProductData.selectedCategory);
 
   // Determine the data to display: filter if a category is selected
   const filteredData = selectedCategory
-    ? saveAllProductData.filter(product => product.category === selectedCategory)
-    : saveAllProductData;
+    ? allProductData.filter(product => product.category === selectedCategory)
+    : allProductData;
 
   useEffect(() => {
     fetchProducts();
@@ -97,14 +98,6 @@ const Home = (props) => {
     </View>
   );
 
-  if (loader) {
-    return (
-      <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
   return (
     <SafeAreaView style={styles.container}>
 
@@ -142,35 +135,36 @@ const Home = (props) => {
         /> */}
 
 
-        <GroupModal
-          visible={modalVisible}
-          closeModal={() => setModalVisible(false)} 
-          onElectronicsPress={() => {
-            dispatch(setSelectedCategory('electronics')); 
-            setModalVisible(false); 
-          }}
-          onJewelryPress={() => {
-            dispatch(setSelectedCategory('jewelery')); 
-            setModalVisible(false); 
-          }}
-          onMenPress={() => {
-            dispatch(setSelectedCategory("men's clothing")); 
-            setModalVisible(false); 
-          }}
-          onWomenPress={() => {
-            dispatch(setSelectedCategory("women's clothing")); 
-            setModalVisible(false);
-          }}
-          onAllPress={() => {
-            dispatch(clearSelectedCategory()); 
-            setModalVisible(false); 
-          }}
-          onLogoutPress={() => props.navigation.navigate('Login')} 
-        />
+             <GroupModal
+        visible={modalVisible}
+        closeModal={() => setModalVisible(false)}  // Close modal
+        onElectronicsPress={() => {
+          dispatch(setSelectedCategory('electronics')); // Set selected category
+          setModalVisible(false); // Close the modal
+        }}
+        onJewelryPress={() => {
+          dispatch(setSelectedCategory('jewelery')); // Set selected category
+          setModalVisible(false); // Close the modal
+        }}
+        onMenPress={() => {
+          dispatch(setSelectedCategory("men's clothing")); // Set selected category
+          setModalVisible(false); // Close the modal
+        }}
+        onWomenPress={() => {
+          dispatch(setSelectedCategory("women's clothing")); // Set selected category
+          setModalVisible(false); // Close the modal
+        }}
+        onAllPress={() => {
+          dispatch(clearSelectedCategory()); // Clear selected category to show all products
+          setModalVisible(false); // Close the modal
+        }}
+        onLogoutPress={() => props.navigation.navigate('Login')} // Handle logout
+      />
 
 
 
       </ScrollView>
+      <SpinningLoader loader={loader} />
     </SafeAreaView>
   );
 };
