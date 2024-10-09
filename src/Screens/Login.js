@@ -14,7 +14,7 @@ const Login = (props) => {
 
     const [show, setshow] = useState(true);
 
-    const [FullNm, setFullNm] = useState("");
+    const [UserName, setUserName] = useState("");
     const [fullNmError, setFullNmError] = useState("");
     const [password, setpassword] = useState('')
     const [PasswordError, setPasswordError] = useState('')
@@ -25,7 +25,7 @@ const Login = (props) => {
     });
     const Submit = () => {
 
-        const fullNmError = ValidateUserName(FullNm)
+        const fullNmError = ValidateUserName(UserName)
         const PasswordError = ValidatePassword(password)
 
         if (fullNmError == '' && PasswordError == '') {
@@ -48,7 +48,7 @@ const Login = (props) => {
         try {
             setLoader(true);
             const response = await axios.post('https://fakestoreapi.com/auth/login', {
-                username: FullNm,
+                username: UserName,
                 password: password,
             });
 
@@ -60,7 +60,7 @@ const Login = (props) => {
 
                 if (checked) {
                     await AsyncStorage.setItem('userCredentials', JSON.stringify({
-                        username: FullNm,
+                        username: UserName,
                         password: password,
                     }));
                 } else {
@@ -156,9 +156,9 @@ const Login = (props) => {
                                         borderColor: COLORS.BORDERCOLOR,
                                         marginTop: 17
                                     }}
-                                    value={FullNm}
+                                    value={UserName}
                                     onBlur={() => {
-                                        if (FullNm != "" || FullNm != undefined) {
+                                        if (UserName != "" || UserName != undefined) {
                                             setShowError((prevState) => ({
                                                 ...prevState,
                                                 fullNmError: true,
@@ -166,8 +166,8 @@ const Login = (props) => {
                                         }
                                     }}
                                     onChangeText={(text) => {
-                                        if (FullNm != "" || FullNm != undefined) {
-                                            setFullNm(text);
+                                        if (UserName != "" || UserName != undefined) {
+                                            setUserName(text);
                                             setFullNmError(ValidateUserName(text));
                                         }
                                     }}

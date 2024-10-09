@@ -8,16 +8,9 @@ import Home from '../Home';
 import Cart from '../Cart';
 
 const Tab = createBottomTabNavigator();
-
-
-
-
-
-
-
 const BottomTabbar = (props) => {
   return (
-    // <NavigationContainer>
+  
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -56,11 +49,6 @@ const BottomTabbar = (props) => {
             justifyContent: 'center',
             borderRadius: 30,
             flexDirection:'row',
-       
-           
-            
-           
-           
           },
           tabBarBadge: route.name === 'Home' ? null : undefined,
           }
@@ -71,7 +59,7 @@ const BottomTabbar = (props) => {
         <Tab.Screen name="Cart" component={Cart} />
     
       </Tab.Navigator>
-    // </NavigationContainer>
+    
   );
 };
 

@@ -38,7 +38,7 @@ export const ValidatePassword = (password) => {
       return ErrorMessages.PasswordError;
     }
   } else {
-    return ErrorMessages.PasswordEmpty;
+    return ErrorMessages.PasswordError1 ;
   }
 };
 // export const ValidateUserName = (UserName) => {
@@ -54,22 +54,19 @@ export const ValidatePassword = (password) => {
 //     return ErrorMessages.UserNameError;
 //   }
 // };
-
 export const ValidateUserName = (UserName) => {
   if (UserName !== '') {
     if (USERNAMEREG.test(UserName)) {
       return '';
     } else if (UserName.length < 3 || UserName.length > 20) {
-      return ErrorMessages.UserNameErr; 
-    } else if (!USERNAMEREG.test(UserName)) {
-      return ErrorMessages.UserNameErr2; 
+      return ErrorMessages.UserNameErr;
+    } if (!USERNAMEREG.test(UserName)) {
+      return ErrorMessages.UserNameErr2;
     }
   } else {
-    return ErrorMessages.UserNameError; 
+    return null;
   }
 };
-
-
 
 
 

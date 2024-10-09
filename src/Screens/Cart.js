@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
+import RootState from '../Redux/Store';
+import { useSelector } from 'react-redux';
 
 const Cart = () => {
   const [carts, setCarts] = useState([]);
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);     
+  const saveAllProductData  = useSelector((state:RootState) => state.saveAllProductData.AllProductData_);
+  console.log(saveAllProductData ,'allDataallDataallDataallData')
 
   useEffect(() => {
   
@@ -58,8 +62,8 @@ const Cart = () => {
             <Text style={styles.cartText}>Products:</Text>
             {item?.products.map((product) => (
               <View key={product.productId} style={styles.productItem}>
-                <Text style={{color:'red'}}>• Product ID: {product?.productId}</Text>
-                <Text style={{color:'red'}}>  Quantity: {product?.quantity}</Text>
+                <Text style={{color:'#555'}}>• Product ID: {product?.productId}</Text>
+                <Text style={{color:'#888'}}>  Quantity: {product?.quantity}</Text>
               </View>
             ))}
           </View>

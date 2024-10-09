@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList, Text, Image, ActivityIndicator, StyleSheet,ScrollView, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text, Image, ActivityIndicator, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { showMessage } from 'react-native-flash-message';
 import Feather from 'react-native-vector-icons/Feather'
 import GroupModal from '../Components/GroupModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { useDispatch } from 'react-redux'
+import { saveAllProductData, saveALlProductData } from '../Redux/ProductDetails';
 const Home = (props) => {
-  const [products, setProducts] = useState([]); 
+  const [products, setProducts] = useState([]);
   const [loader, setLoader] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
- 
+  const dispatch = useDispatch()
 
-  const handleGmember = () => { 
-    props.navigation.navigate('Cart'); 
-    setModalVisible(false); 
+  const handleGmember = () => {
+    props.navigation.navigate('Cart');
+    setModalVisible(false);
   };
 
   const handleDeleteChat = () => setModalVisible(false);
   const handleCloseModal = () => setModalVisible(false);
+
 
   const fetchProducts = async () => {
     setLoader(true);
@@ -27,6 +29,8 @@ const Home = (props) => {
       if (res.status === 200) {
         setProducts(res.data);
         console.log(res.data, 'Fetched Products');
+        const AllProductData = res?.data;
+        dispatch(saveAllProductData(AllProductData));
         showMessage({
           message: 'Products fetched successfully!',
           type: 'success',
@@ -60,7 +64,7 @@ const Home = (props) => {
 
   const renderItem = ({ item }) => (
 
-    
+
     <View style={styles.flatListItem}>
       <Image
         source={{ uri: item?.image }}
@@ -87,41 +91,41 @@ const Home = (props) => {
   }
 
   return (
-<SafeAreaView  style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
 
-    <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.subhead}>
-        <Text style={styles.exporetxt}>Home</Text>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Feather name='menu' color={'black'} size={24} />
-        </TouchableOpacity>
-      
+          <Text style={styles.exporetxt}>Home</Text>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Feather name='menu' color={'black'} size={24} />
+          </TouchableOpacity>
+
         </View>
-       
-    <FlatList
-      data={products}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={renderItem}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.flatListContainer}
-      ListEmptyComponent={
-        <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No products available.</Text>
-        </View>
-      }
-    />
-    
-    <GroupModal
-    visible={modalVisible}
-    closeModal={() => setModalVisible(false)}
-    onElectronicsPress={() => console.log('Electronics pressed')}
-    onJewelryPress={() => console.log('Jewelry pressed')}
-    onMenPress={() => console.log('Men pressed')}
-    onWomenPress={() => console.log('Women pressed')}
-    onLogoutPress={() => props.navigation.navigate('Login')}
-/>
-    </ScrollView>
+
+        <FlatList
+          data={products}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.flatListContainer}
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>No products available.</Text>
+            </View>
+          }
+        />
+
+        <GroupModal
+          visible={modalVisible}
+          closeModal={() => setModalVisible(false)}
+          onElectronicsPress={() => console.log('Electronics pressed')}
+          onJewelryPress={() => console.log('Jewelry pressed')}
+          onMenPress={() => console.log('Men pressed')}
+          onWomenPress={() => console.log('Women pressed')}
+          onLogoutPress={() => props.navigation.navigate('Login')}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -129,7 +133,7 @@ const Home = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  
+
     marginBottom: 3,
   },
   subhead: {
@@ -149,10 +153,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 8,
     elevation: 2,
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 2 }, 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 4, 
+    shadowRadius: 4,
     padding: 10,
   },
   productImage: {
@@ -165,6 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   productTitle: {
+    color: '#000000',
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
