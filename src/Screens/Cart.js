@@ -23,9 +23,9 @@ const Cart = () => {
         setError(err.message);
         setLoading(false);
       });
-  }, []); // Empty dependency array ensures this runs once on mount
+  }, []);
 
-  // Render loading indicator while fetching data
+
   if (loading) {
     return (
       <View style={styles.centered}>
@@ -34,7 +34,7 @@ const Cart = () => {
     );
   }
 
-  // Render error message if there's an error
+
   if (error) {
     return (
       <View style={styles.centered}>
@@ -43,7 +43,7 @@ const Cart = () => {
     );
   }
 
-  // Render the list of carts
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Cart List</Text>
@@ -52,14 +52,14 @@ const Cart = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.cartItem}>
-            <Text style={styles.cartText}>Cart ID: {item.id}</Text>
-            <Text style={styles.cartText}>User ID: {item.userId}</Text>
-            <Text style={styles.cartText}>Date: {new Date(item.date).toLocaleDateString()}</Text>
+            <Text style={styles.cartText}>Cart ID: {item?.id}</Text>
+            <Text style={styles.cartText}>User ID: {item?.userId}</Text>
+            <Text style={styles.cartText}>Date: {new Date(item?.date).toLocaleDateString()}</Text>
             <Text style={styles.cartText}>Products:</Text>
-            {item.products.map((product) => (
+            {item?.products.map((product) => (
               <View key={product.productId} style={styles.productItem}>
-                <Text style={{color:'red'}}>• Product ID: {product.productId}</Text>
-                <Text style={{color:'red'}}>  Quantity: {product.quantity}</Text>
+                <Text style={{color:'red'}}>• Product ID: {product?.productId}</Text>
+                <Text style={{color:'red'}}>  Quantity: {product?.quantity}</Text>
               </View>
             ))}
           </View>

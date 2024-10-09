@@ -4,15 +4,16 @@ import axios from 'axios';
 import { showMessage } from 'react-native-flash-message';
 import Feather from 'react-native-vector-icons/Feather'
 import GroupModal from '../Components/GroupModal';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Home = (props) => {
-  const [products, setProducts] = useState([]); // Renamed for clarity
+  const [products, setProducts] = useState([]); 
   const [loader, setLoader] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
  
 
   const handleGmember = () => { 
-    props.navigation.navigate('Cart');  // Replace with your actual route name
+    props.navigation.navigate('Cart'); 
     setModalVisible(false); 
   };
 
@@ -62,16 +63,16 @@ const Home = (props) => {
     
     <View style={styles.flatListItem}>
       <Image
-        source={{ uri: item.image }}
+        source={{ uri: item?.image }}
         style={styles.productImage}
         resizeMode="contain"
       />
       <View style={styles.productDetails}>
-        <Text style={styles.productTitle}>{item.title}</Text>
-        <Text style={styles.productPrice}>${item.price}</Text>
-        <Text style={styles.productCategory}>{item.category}</Text>
+        <Text style={styles.productTitle}>{item?.title}</Text>
+        <Text style={styles.productPrice}>${item?.price}</Text>
+        <Text style={styles.productCategory}>{item?.category}</Text>
         <Text style={styles.productDescription} numberOfLines={2}>
-          {item.description}
+          {item?.description}
         </Text>
       </View>
     </View>
@@ -86,8 +87,10 @@ const Home = (props) => {
   }
 
   return (
+<SafeAreaView  style={styles.container}>
 
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+
+    <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.subhead}>
         <Text style={styles.exporetxt}>Home</Text>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -98,7 +101,7 @@ const Home = (props) => {
        
     <FlatList
       data={products}
-      keyExtractor={(item) => item.id.toString()} // Ensure each item has a unique key
+      keyExtractor={(item) => item.id.toString()}
       renderItem={renderItem}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.flatListContainer}
@@ -119,6 +122,7 @@ const Home = (props) => {
     onLogoutPress={() => props.navigation.navigate('Login')}
 />
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -144,11 +148,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginBottom: 10,
     borderRadius: 8,
-    elevation: 2, // For Android shadow
-    shadowColor: '#000', // For iOS shadow
-    shadowOffset: { width: 0, height: 2 }, // For iOS shadow
-    shadowOpacity: 0.1, // For iOS shadow
-    shadowRadius: 4, // For iOS shadow
+    elevation: 2,
+    shadowColor: '#000', 
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.1,
+    shadowRadius: 4, 
     padding: 10,
   },
   productImage: {

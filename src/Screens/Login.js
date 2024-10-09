@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import ButtonComponent from '../Components/ButtonCommopent'
 import Inputfield from '../Components/Inputfield'
-import { ValidateEmail, ValidatePassword } from '../Components/ValidationsConfig/Validations'
-import { COLORS, VECTOR_ICONS } from '../assets/Theme'
+import { ValidateEmail, ValidatePassword, ValidateUserName } from '../Components/ValidationsConfig/Validations'
+import { COLORS } from '../assets/Theme'
 import { WIDTH } from '../Components/Helpers/Dimensions'
 import { ANDROID } from '../Components/Helpers/Platform'
 import { FONT } from '../assets/fonts/Fonts'
@@ -13,28 +13,30 @@ import { FONT } from '../assets/fonts/Fonts'
 const Login = (props) => {
 
     const [show, setshow] = useState(true);
-   
-    const [email, setemail] = useState('')
-    const [emailError, setemailError] = useState('')
+
+    const [FullNm, setFullNm] = useState("");
+    const [fullNmError, setFullNmError] = useState("");
     const [password, setpassword] = useState('')
     const [PasswordError, setPasswordError] = useState('')
+    const [loading, setLoading] = useState(false);
     const [ShowError, setShowError] = useState({
-        emailError: false,
+        fullnError: false,
         PasswordError: false
     });
     const Submit = () => {
 
-        const emailError = ValidateEmail(email)
+        const fullNmError = ValidateUserName(FullNm)
         const PasswordError = ValidatePassword(password)
 
-        if (emailError == '' && PasswordError == '') {
-            props.navigation.navigate('BottomTabbar')
+        if (fullNmError == '' && PasswordError == '') {
+            // props.navigation.navigate('')
+            LoginAPI()
 
         } else {
-            setemailError(emailError)
+            setFullNmError(fullNmError)
             setPasswordError(PasswordError)
             setShowError({
-                emailError: true,
+                fullNmError: true,
                 PasswordError: true
 
             })
@@ -42,6 +44,60 @@ const Login = (props) => {
         }
     }
 
+    const LoginAPI = async (email, password, checked, setLoader, props) => {
+        try {
+            setLoader(true);
+            const response = await axios.post('https://fakestoreapi.com/auth/login', {
+                username: FullNm,
+                password: password,
+            });
+
+            if (response?.status === 200) {
+                const token = response?.data?.token;
+                console.log(token, 'Token from response');
+                // const dispatch = useDispatch();
+                // dispatch(saveToken(token));
+
+                if (checked) {
+                    await AsyncStorage.setItem('userCredentials', JSON.stringify({
+                        username: FullNm,
+                        password: password,
+                    }));
+                } else {
+                    await AsyncStorage.removeItem('userCredentials');
+                }
+
+                showMessage({
+                    message: "Login successful",
+                    type: 'success',
+                    icon: 'success',
+                    duration: 3000,
+                });
+
+
+                props.navigation.navigate('BottomTabbar');
+            } else {
+
+                setLoader(false);
+                showMessage({
+                    message: response?.data?.message || 'Login failed',
+                    type: 'warning',
+                    icon: 'warning',
+                    duration: 3000,
+                });
+            }
+        } catch (error) {
+
+            setLoader(false);
+            showMessage({
+                message: error?.response?.data?.message || 'An error occurred',
+                type: 'danger',
+                icon: 'danger',
+                duration: 3000,
+            });
+            console.error('Error logging in:', error);
+        }
+    };
 
     return (
         <>
@@ -55,7 +111,7 @@ const Login = (props) => {
                             <Text style={styles.signStyle}>Sign In to your account</Text>
 
                             <View style={styles.inputStyle}>
-                                <Inputfield
+                                {/* <Inputfield
                                     placeholder={'Enter email address'}
                                     Email
                                     Line
@@ -81,6 +137,42 @@ const Login = (props) => {
                                     ShowError={ShowError.emailError}
                                     Error={emailError}
 
+                                /> */}
+                                <Inputfield
+                                    placeholder={"Enter user name"}
+                                    User
+                                    Line
+                                    MaxLength={60}
+                                    placeholderTextColor={COLORS.PLACEHOLDERCOLOR}
+                                    TextInputStyle={{
+                                        fontSize: 14,
+                                        fontFamily: FONT.Regular,
+                                        // marginLeft: "2%",
+                                        color: COLORS.BLACK,
+                                    }}
+                                    InputFieldStyle={{
+                                        borderRadius: 5,
+                                        paddingVertical: "1%",
+                                        borderColor: COLORS.BORDERCOLOR,
+                                        marginTop: 17
+                                    }}
+                                    value={FullNm}
+                                    onBlur={() => {
+                                        if (FullNm != "" || FullNm != undefined) {
+                                            setShowError((prevState) => ({
+                                                ...prevState,
+                                                fullNmError: true,
+                                            }));
+                                        }
+                                    }}
+                                    onChangeText={(text) => {
+                                        if (FullNm != "" || FullNm != undefined) {
+                                            setFullNm(text);
+                                            setFullNmError(ValidateUserName(text));
+                                        }
+                                    }}
+                                    ShowError={ShowError.fullNmError}
+                                    Error={fullNmError}
                                 />
 
                                 <Inputfield
@@ -128,7 +220,7 @@ const Login = (props) => {
                                 Label={'Login'}
                                 Action={() => Submit()}
                                 Textstyles={{ color: 'rgba(255, 255, 255, 1)', fontSize: 16, fontFamily: FONT.semiBold }}
-                               
+
                             />
 
 
