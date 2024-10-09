@@ -86,7 +86,7 @@ const Inputfield = (props) => {
             {
               height: 45,
               paddingHorizontal: 0,
-              width: props.Email || props?.Password ? '77%' : props.User ? '77%' : props.Mobile ? '77%' : props?.PasswordField ? '92%' : '97%',
+              width: props.Email || props?.Password ? '94%' : props.User ? '77%' : props.Mobile ? '77%' : props?.PasswordField ? '92%' : '97%',
               backgroundColor: props.backgroundColor,
               color: COLORS.BLACK,
               alignItems: 'center',

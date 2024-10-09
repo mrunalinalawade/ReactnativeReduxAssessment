@@ -5,22 +5,26 @@ import { useSelector } from 'react-redux';
 
 const Cart = () => {
   const [carts, setCarts] = useState([]);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null);     
-  const saveAllProductData  = useSelector((state:RootState) => state.saveAllProductData.AllProductData_);
-  console.log(saveAllProductData ,'allDataallDataallDataallData')
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const saveAllProductData = useSelector((state: RootState) => state.saveAllProductData.AllProductData_);
+  console.log(saveAllProductData, 'allDataallDataallDataallData')
 
   useEffect(() => {
-  
+
     fetch('https://fakestoreapi.com/carts')
       .then((res) => {
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
         return res.json();
+
       })
       .then((json) => {
         setCarts(json);
+        setCarts(json);
+        console.log(json, 'jsonjsonjsonjsonjsonjson');
+
         setLoading(false);
       })
       .catch((err) => {
@@ -62,8 +66,8 @@ const Cart = () => {
             <Text style={styles.cartText}>Products:</Text>
             {item?.products.map((product) => (
               <View key={product.productId} style={styles.productItem}>
-                <Text style={{color:'#555'}}>• Product ID: {product?.productId}</Text>
-                <Text style={{color:'#888'}}>  Quantity: {product?.quantity}</Text>
+                <Text style={{ color: '#555' }}>• Product ID: {product?.productId}</Text>
+                <Text style={{ color: '#888' }}>  Quantity: {product?.quantity}</Text>
               </View>
             ))}
           </View>
@@ -92,7 +96,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 16,
     textAlign: 'center',
-    color:'black'
+    color: 'black'
   },
   cartItem: {
     backgroundColor: '#ffffff',
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
   cartText: {
     fontSize: 16,
     marginBottom: 4,
-    color:'black'
+    color: 'black'
   },
   productItem: {
     marginLeft: 16,

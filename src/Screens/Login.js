@@ -14,41 +14,41 @@ const Login = (props) => {
 
     const [show, setshow] = useState(true);
 
-    const [UserName, setUserName] = useState("");
+    const [FullNm, setFullNm] = useState("");
     const [fullNmError, setFullNmError] = useState("");
     const [password, setpassword] = useState('')
     const [PasswordError, setPasswordError] = useState('')
     const [loading, setLoading] = useState(false);
     const [ShowError, setShowError] = useState({
-        fullnError: false,
-        PasswordError: false
+        fullError: false,
+        passwordError: false
     });
     const Submit = () => {
 
-        const fullNmError = ValidateUserName(UserName)
-        const PasswordError = ValidatePassword(password)
+        const fullError = ValidateUserName(FullNm)
+        const passwordError = ValidatePassword(password)
 
-        if (fullNmError == '' && PasswordError == '') {
+        if (fullError == '' && passwordError == '') {
             // props.navigation.navigate('')
             LoginAPI()
 
         } else {
-            setFullNmError(fullNmError)
-            setPasswordError(PasswordError)
+            setFullNmError(fullError)
+            setPasswordError(passwordError)
             setShowError({
-                fullNmError: true,
-                PasswordError: true
+                fullError: true,
+                passwordError: true
 
             })
 
         }
     }
 
-    const LoginAPI = async (email, password, checked, setLoader, props) => {
+    const LoginAPI = async (FullNm, password, checked, setLoader, props) => {
         try {
             setLoader(true);
             const response = await axios.post('https://fakestoreapi.com/auth/login', {
-                username: UserName,
+                username: FullNm,
                 password: password,
             });
 
@@ -58,15 +58,7 @@ const Login = (props) => {
                 // const dispatch = useDispatch();
                 // dispatch(saveToken(token));
 
-                if (checked) {
-                    await AsyncStorage.setItem('userCredentials', JSON.stringify({
-                        username: UserName,
-                        password: password,
-                    }));
-                } else {
-                    await AsyncStorage.removeItem('userCredentials');
-                }
-
+                props.navigation.navigate('BottomTabbar');
                 showMessage({
                     message: "Login successful",
                     type: 'success',
@@ -75,7 +67,7 @@ const Login = (props) => {
                 });
 
 
-                props.navigation.navigate('BottomTabbar');
+
             } else {
 
                 setLoader(false);
@@ -156,22 +148,22 @@ const Login = (props) => {
                                         borderColor: COLORS.BORDERCOLOR,
                                         marginTop: 17
                                     }}
-                                    value={UserName}
+                                    value={FullNm}
                                     onBlur={() => {
-                                        if (UserName != "" || UserName != undefined) {
+                                        if (FullNm != "" || FullNm != undefined) {
                                             setShowError((prevState) => ({
                                                 ...prevState,
-                                                fullNmError: true,
+                                                fullError: true,
                                             }));
                                         }
                                     }}
                                     onChangeText={(text) => {
-                                        if (UserName != "" || UserName != undefined) {
-                                            setUserName(text);
+                                        if (FullNm != "" || FullNm != undefined) {
+                                            setFullNm(text);
                                             setFullNmError(ValidateUserName(text));
                                         }
                                     }}
-                                    ShowError={ShowError.fullNmError}
+                                    ShowError={ShowError.fullError}
                                     Error={fullNmError}
                                 />
 
@@ -192,7 +184,7 @@ const Login = (props) => {
                                         if (password != '' || password != undefined) {
                                             setShowError(prevState => ({
                                                 ...prevState,
-                                                PasswordError: true,
+                                                passwordError: true,
                                             }));
                                         }
                                     }}
@@ -202,7 +194,7 @@ const Login = (props) => {
                                             setPasswordError(ValidatePassword(text));
                                         }
                                     }}
-                                    ShowError={ShowError.PasswordError}
+                                    ShowError={ShowError.passwordError}
                                     Error={PasswordError}
 
                                 />

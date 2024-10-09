@@ -5,8 +5,10 @@ import { showMessage } from 'react-native-flash-message';
 import Feather from 'react-native-vector-icons/Feather'
 import GroupModal from '../Components/GroupModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux'
-import { saveAllProductData, saveALlProductData } from '../Redux/ProductDetails';
+import { useDispatch, useSelector } from 'react-redux'
+import RootState from '../Redux/Store';
+
+
 const Home = (props) => {
   const [products, setProducts] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -17,11 +19,14 @@ const Home = (props) => {
     props.navigation.navigate('Cart');
     setModalVisible(false);
   };
-
   const handleDeleteChat = () => setModalVisible(false);
   const handleCloseModal = () => setModalVisible(false);
+  const saveAllProductData = useSelector((state: RootState) => state.saveAllProductData.AllProductData_);
+  console.log(saveAllProductData, 'allDataallDataallDataallData')
 
-
+  useEffect(() => {
+    fetchProducts();
+  }, []);
   const fetchProducts = async () => {
     setLoader(true);
     try {
@@ -58,9 +63,9 @@ const Home = (props) => {
     }
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+
+
+
 
   const renderItem = ({ item }) => (
 
@@ -74,6 +79,7 @@ const Home = (props) => {
       <View style={styles.productDetails}>
         <Text style={styles.productTitle}>{item?.title}</Text>
         <Text style={styles.productPrice}>${item?.price}</Text>
+        <Text style={styles.productCategory}>Count :{item?.rating?.count}    Rate:{item?.rating?.rate}</Text>
         <Text style={styles.productCategory}>{item?.category}</Text>
         <Text style={styles.productDescription} numberOfLines={2}>
           {item?.description}
@@ -119,7 +125,7 @@ const Home = (props) => {
         <GroupModal
           visible={modalVisible}
           closeModal={() => setModalVisible(false)}
-          onElectronicsPress={() => console.log('Electronics pressed')}
+          onElectronicsPress={() => console.log('Jewelry pressed')}
           onJewelryPress={() => console.log('Jewelry pressed')}
           onMenPress={() => console.log('Men pressed')}
           onWomenPress={() => console.log('Women pressed')}
