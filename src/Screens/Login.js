@@ -119,7 +119,7 @@ const Login = (props) => {
                                     }}
                                     value={FullNm}
                                     onBlur={() => {
-                                        if (FullNm !== "" && FullNm !== undefined) {
+                                        if (FullNm != "" || FullNm != undefined) {
                                             setShowError((prevState) => ({
                                                 ...prevState,
                                                 fullError: true,
@@ -128,7 +128,7 @@ const Login = (props) => {
                                     }}
                                     
                                     onChangeText={(text) => {
-                                        if (FullNm !== "" && FullNm !== undefined) { // Use 'text' instead of 'FullNm' for the current input
+                                        if (FullNm != "" || FullNm != undefined) { 
                                             setFullNm(text);
                                             setFullNmError(ValidateUserName(text));
                                         }

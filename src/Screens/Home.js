@@ -93,10 +93,10 @@ const Home = (props) => {
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
           <Text style={styles.productPrice}>${item?.price}</Text>
           <TouchableOpacity
-              onPress={() => {
-                console.log('Adding to cart:', item); 
-                dispatch(addToCart(item));
-              }}
+            onPress={() => {
+              console.log('Adding to cart:', item);
+              dispatch(addToCart(item));
+            }}
             style={{
               marginLeft: '36%', backgroundColor: '#905CFF', color: '#EEE6FF', justifyContent: 'center',
               padding: '3%', borderRadius: 10
