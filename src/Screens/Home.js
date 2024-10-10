@@ -10,6 +10,7 @@ import RootState from '../Redux/Store';
 import { clearSelectedCategory, saveAllProductData, setSelectedCategory } from '../Redux/ProductDetails';
 import SpinningLoader from '../ApiConfig/SpinningLoader';
 import { useFocusEffect } from '@react-navigation/native';
+import { addToCart } from '../Redux/CartSlice';
 
 
 const Home = (props) => {
@@ -86,16 +87,33 @@ const Home = (props) => {
         style={styles.productImage}
         resizeMode="contain"
       />
+
       <View style={styles.productDetails}>
         <Text style={styles.productTitle}>{item?.title}</Text>
-        <Text style={styles.productPrice}>${item?.price}</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={styles.productPrice}>${item?.price}</Text>
+          <TouchableOpacity
+              onPress={() => {
+                console.log('Adding to cart:', item); 
+                dispatch(addToCart(item));
+              }}
+            style={{
+              marginLeft: '36%', backgroundColor: '#905CFF', color: '#EEE6FF', justifyContent: 'center',
+              padding: '3%', borderRadius: 10
+
+            }}><Text style={styles.productCategory1}>Add to card</Text></TouchableOpacity>
+        </View>
+
         <Text style={styles.productCategory}>Count :{item?.rating?.count}    Rate:{item?.rating?.rate}</Text>
         <Text style={styles.productCategory}>{item?.category}</Text>
         <Text style={styles.productDescription} numberOfLines={2}>
           {item?.description}
         </Text>
       </View>
+
+
     </View>
+
   );
 
   return (
@@ -203,6 +221,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#555',
     marginBottom: 5,
+  },
+  productCategory1: {
+    fontSize: 12,
+    color: '#555',
+    marginBottom: 5,
+    textDecorationLine: 'underline'
   },
   productDescription: {
     fontSize: 12,

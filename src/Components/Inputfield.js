@@ -13,7 +13,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 
-
 import { ANDROID } from './Helpers/Platform';
 import { COLORS, VECTOR_ICONS } from '../assets/Theme';
 import { HEIGHT, WIDTH } from './Helpers/Dimensions';
@@ -96,7 +95,7 @@ const Inputfield = (props) => {
             props.TextInputStyle,
           ]}
           {...props}
-    
+          //   selectionColor={COLORS.INPUTLABELDARKGRAY}
           secureTextEntry={props.ShowPassword ? true : false}
           maxLength={props?.MaxLength}
           onBlur={props.onBlur}

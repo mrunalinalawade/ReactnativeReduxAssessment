@@ -6,9 +6,11 @@ import Inputfield from '../Components/Inputfield'
 import { ValidatePassword, ValidateUserName } from '../Components/ValidationsConfig/Validations'
 import { COLORS } from '../assets/Theme'
 import { WIDTH } from '../Components/Helpers/Dimensions'
-
+import { showMessage } from 'react-native-flash-message';
 import { FONT } from '../assets/fonts/Fonts'
 import { useDispatch } from 'react-redux'
+import axios from 'axios'
+import { saveToken } from '../Redux/ProductDetails'
 
 
 const Login = (props) => {
@@ -44,14 +46,14 @@ const Login = (props) => {
         }
     }
 
-    const LoginAPI = async (FullNm, password, checked, setLoader) => {
+    const LoginAPI = async () => { 
         try {
             setLoader(true);
             const response = await axios.post('https://fakestoreapi.com/auth/login', {
                 username: FullNm,
                 password: password,
             });
-
+    
             if (response?.status === 200) {
                 const Token = response?.data?.token;
                 console.log(Token, 'Token from response');
@@ -73,7 +75,6 @@ const Login = (props) => {
                 });
             }
         } catch (error) {
-
             setLoader(false);
             showMessage({
                 message: error?.response?.data?.message || 'An error occurred',
@@ -84,6 +85,7 @@ const Login = (props) => {
             console.error('Error logging in:', error);
         }
     };
+    
 
     return (
         <>
@@ -117,19 +119,21 @@ const Login = (props) => {
                                     }}
                                     value={FullNm}
                                     onBlur={() => {
-                                        if (FullNm != "" || FullNm != undefined) {
+                                        if (FullNm !== "" && FullNm !== undefined) {
                                             setShowError((prevState) => ({
                                                 ...prevState,
                                                 fullError: true,
                                             }));
                                         }
                                     }}
+                                    
                                     onChangeText={(text) => {
-                                        if (FullNm != "" || FullNm != undefined) {
+                                        if (FullNm !== "" && FullNm !== undefined) { // Use 'text' instead of 'FullNm' for the current input
                                             setFullNm(text);
                                             setFullNmError(ValidateUserName(text));
                                         }
                                     }}
+                                    
                                     ShowError={ShowError.fullError}
                                     Error={fullNmError}
                                 />
