@@ -7,8 +7,9 @@ import GroupModal from '../Components/GroupModal';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux'
 import RootState from '../Redux/Store';
-import { clearSelectedCategory, setSelectedCategory } from '../Redux/ProductDetails';
+import { clearSelectedCategory, saveAllProductData, setSelectedCategory } from '../Redux/ProductDetails';
 import SpinningLoader from '../ApiConfig/SpinningLoader';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Home = (props) => {
@@ -31,6 +32,15 @@ const Home = (props) => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(clearSelectedCategory());
+      return () => {
+      };
+    }, [dispatch])
+  );
+
 
   const fetchProducts = async () => {
     setLoader(true);

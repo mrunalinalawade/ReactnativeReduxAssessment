@@ -39,7 +39,7 @@ const Inputfield = (props) => {
                 {
                   backgroundColor: props.backgroundColor
                     ? props.backgroundColor
-                    : 'rgba(0, 0, 0, 0.05)',
+                    : '#EEE6FF',
                 },
               ]
         }>
@@ -52,8 +52,8 @@ const Inputfield = (props) => {
 
         {props.Password && (
           <TouchableOpacity style={styles.iconStyle}>
-            {/* <VECTOR_ICONS.EvilIcons name={'lock'} color={COLORS.PLACEHOLDERCOLOR} size={22}  /> */}
-            <Image source={IMAGEPATH.PasswordLock} style={{ width: WIDTH * 0.04, height: HEIGHT * 0.035, resizeMode: 'contain' }} />
+            <VECTOR_ICONS.EvilIcons name={'lock'} color={COLORS.PLACEHOLDERCOLOR} size={22}  />
+            {/* <Image source={IMAGEPATH.PasswordLock} style={{ width: WIDTH * 0.04, height: HEIGHT * 0.035, resizeMode: 'contain',color:COLORS.PLACEHOLDERCOLOR }} /> */}
           </TouchableOpacity>
         )}
 
@@ -88,7 +88,7 @@ const Inputfield = (props) => {
               paddingHorizontal: 0,
               width: props.Email || props?.Password ? '94%' : props.User ? '77%' : props.Mobile ? '77%' : props?.PasswordField ? '92%' : '97%',
               backgroundColor: props.backgroundColor,
-              color: COLORS.BLACK,
+              color: COLORS.PLACEHOLDERCOLOR,
               alignItems: 'center',
 
 
@@ -96,7 +96,7 @@ const Inputfield = (props) => {
             props.TextInputStyle,
           ]}
           {...props}
-          //   selectionColor={COLORS.INPUTLABELDARKGRAY}
+    
           secureTextEntry={props.ShowPassword ? true : false}
           maxLength={props?.MaxLength}
           onBlur={props.onBlur}
@@ -121,7 +121,7 @@ const Inputfield = (props) => {
           onPress={props.PasswordPress}>
           <Entypo
             name={props.ShowPassword ? 'eye-with-line' : 'eye'}
-            color={'rgba(173, 173, 173, 1)'}
+            color={COLORS.PLACEHOLDERCOLOR}
             size={24}
           />
         </TouchableOpacity>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   Replace: {},
   line2: {
     width: 0.7,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    borderColor:COLORS.PLACEHOLDERCOLOR,
     height: HEIGHT * 0.045,
     alignSelf: "center",
     marginHorizontal: '3%'
@@ -228,17 +228,17 @@ const styles = StyleSheet.create({
   },
   iconStyle: {
     borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.4)',
+    borderColor:COLORS.PLACEHOLDERCOLOR,
     // padding: '1.6%',
     borderRadius: 7,
-    width: ANDROID ? WIDTH * 0.09 : WIDTH * 0.085,
+    width: WIDTH * 0.09,
     alignItems: 'center',
-    height: ANDROID ? HEIGHT * 0.043 : HEIGHT * 0.039,
+    height:HEIGHT * 0.043,
     justifyContent: 'center'
   },
   iconStyle1: {
     borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.4)',
+    borderColor:COLORS.PLACEHOLDERCOLOR,
     padding: '1.6%',
     borderRadius: 7,
     // width:WIDTH*0.1,

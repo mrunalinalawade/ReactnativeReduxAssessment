@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import ButtonComponent from '../Components/ButtonCommopent'
 import Inputfield from '../Components/Inputfield'
-import { ValidateEmail, ValidatePassword, ValidateUserName } from '../Components/ValidationsConfig/Validations'
+import { ValidatePassword, ValidateUserName } from '../Components/ValidationsConfig/Validations'
 import { COLORS } from '../assets/Theme'
 import { WIDTH } from '../Components/Helpers/Dimensions'
-import { ANDROID } from '../Components/Helpers/Platform'
+
 import { FONT } from '../assets/fonts/Fonts'
 import { useDispatch } from 'react-redux'
 
@@ -18,7 +18,7 @@ const Login = (props) => {
     const [fullNmError, setFullNmError] = useState("");
     const [password, setpassword] = useState('')
     const [PasswordError, setPasswordError] = useState('')
-    const [loading, setLoading] = useState(false);
+    const [Loader, setLoader] = useState(false);
     const [ShowError, setShowError] = useState({
         fullError: false,
         passwordError: false
@@ -28,7 +28,7 @@ const Login = (props) => {
         const fullError = ValidateUserName(FullNm)
         const passwordError = ValidatePassword(password)
 
-        if (fullError == '' && passwordError == '') {
+        if (fullError === '' && passwordError === '') {
             // props.navigation.navigate('')
             LoginAPI()
 
@@ -44,7 +44,7 @@ const Login = (props) => {
         }
     }
 
-    const LoginAPI = async (FullNm, password, checked, setLoader, props) => {
+    const LoginAPI = async (FullNm, password, checked, setLoader) => {
         try {
             setLoader(true);
             const response = await axios.post('https://fakestoreapi.com/auth/login', {
@@ -55,7 +55,7 @@ const Login = (props) => {
             if (response?.status === 200) {
                 const Token = response?.data?.token;
                 console.log(Token, 'Token from response');
-                dispatch(saveToken (Token));
+                dispatch(saveToken(Token));
                 props.navigation.navigate('BottomTabbar');
                 showMessage({
                     message: "Login successful",
@@ -97,33 +97,7 @@ const Login = (props) => {
                             <Text style={styles.signStyle}>Sign In to your account</Text>
 
                             <View style={styles.inputStyle}>
-                                {/* <Inputfield
-                                    placeholder={'Enter email address'}
-                                    Email
-                                    Line
-                                    placeholderTextColor={COLORS.PLACEHOLDERCOLOR}
-                                    TextInputStyle={{ fontSize: 14, fontFamily: FONT.Regular, width: WIDTH * 0.7 }}
-                                    InputFieldStyle={{ borderRadius: 5, paddingVertical: '1%', borderColor: COLORS.BORDERCOLOR }}
-                                    MaxLength={257}
-                                    value={email}
-                                    onBlur={() => {
-                                        if (email != '' || email != undefined) {
-                                            setShowError(prevState => ({
-                                                ...prevState,
-                                                emailError: true,
-                                            }));
-                                        }
-                                    }}
-                                    onChangeText={(text) => {
-                                        if (email != '' || email != undefined) {
-                                            setemail(text.toLowerCase());
-                                            setemailError(ValidateEmail(text));
-                                        }
-                                    }}
-                                    ShowError={ShowError.emailError}
-                                    Error={emailError}
 
-                                /> */}
                                 <Inputfield
                                     placeholder={"Enter user name"}
                                     User
@@ -133,13 +107,12 @@ const Login = (props) => {
                                     TextInputStyle={{
                                         fontSize: 14,
                                         fontFamily: FONT.Regular,
-                                      
-                                        color: COLORS.BLACK,
+                                        color: COLORS.PLACEHOLDERCOLOR,
                                     }}
                                     InputFieldStyle={{
                                         borderRadius: 5,
                                         paddingVertical: "1%",
-                                        borderColor: COLORS.BORDERCOLOR,
+                                        borderColor: COLORS.PLACEHOLDERCOLOR,
                                         marginTop: 17
                                     }}
                                     value={FullNm}
@@ -168,8 +141,12 @@ const Login = (props) => {
                                     passwordIconStyle={{ right: '20%' }}
                                     placeholder={'Enter your password'}
                                     placeholderTextColor={COLORS.PLACEHOLDERCOLOR}
-                                    TextInputStyle={{ fontSize: 14, fontFamily: FONT.Regular, }}
-                                    InputFieldStyle={{ borderRadius: 5, paddingVertical: '0.8%', borderColor: COLORS.BORDERCOLOR, marginTop: 18, }}
+                                    TextInputStyle={{
+                                        fontSize: 14,
+                                        fontFamily: FONT.Regular,
+                                        color: COLORS.PLACEHOLDERCOLOR,
+                                    }}
+                                    InputFieldStyle={{ borderRadius: 5, paddingVertical: '0.8%', borderColor: COLORS.PLACEHOLDERCOLOR, marginTop: 18, }}
                                     PasswordPress={() => setshow(!show)}
                                     ShowPassword={show}
                                     MaxLength={16}
@@ -197,15 +174,15 @@ const Login = (props) => {
                             <ButtonComponent
                                 styles={{
                                     width: WIDTH * 0.9,
-                                    backgroundColor: COLORS.RED,
-                                    paddingVertical: ANDROID ? '3.4%' : '5%',
+                                    backgroundColor: '#905CFF',
+                                    paddingVertical: '5%',
                                     marginBottom: '4%',
                                     borderRadius: 5,
                                     marginTop: 30
                                 }}
                                 Label={'Login'}
                                 Action={() => Submit()}
-                                Textstyles={{ color: 'rgba(255, 255, 255, 1)', fontSize: 16, fontFamily: FONT.semiBold }}
+                                Textstyles={{ color: '#EEE6FF', fontSize: 18, fontFamily: FONT.semiBold }}
 
                             />
                         </View>
@@ -228,7 +205,7 @@ const styles = StyleSheet.create({
     logintext: {
         fontSize: 30,
         fontFamily: FONT.semiBold,
-        color: COLORS.BLACK,
+        color: '#905CFF',
         marginTop: 45.84,
         lineHeight: 32.97,
         alignItems: 'center'
@@ -238,7 +215,7 @@ const styles = StyleSheet.create({
     signStyle: {
         fontSize: 14,
         fontFamily: FONT.Regular,
-        color: '#78819F',
+        color: '#905CFF',
         lineHeight: 18,
         marginTop: 9
     },
@@ -303,7 +280,7 @@ const styles = StyleSheet.create({
         width: '13%',
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: ANDROID ? '-1.7%' : '-1.1%'
+        marginLeft: '-1.7%'
     },
     inputStyle: {
         marginTop: 40
